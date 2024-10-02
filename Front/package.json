@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "serve": "vue-cli-service serve",
+    "prod": "vue-cli-service serve --port 80",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
