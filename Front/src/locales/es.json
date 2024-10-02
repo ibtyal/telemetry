@@ -1,0 +1,15 @@
+{
+  "title": "Vehículo Eléctrico",
+  "real_time_data": "Datos en Tiempo Real",
+  "voltage": "Voltaje",
+  "current": "Corriente",
+  "temperature": "Temperatura",
+  "rpm": "RPM",
+  "speed": "Velocidad",
+  "soc": "SOC",
+  "disconnect": "Desconectar",
+  "sessions_registered": "Sesiones Registradas",
+  "vehicle_status": "Estado del Vehículo",
+  "connecting": "Conectando..."
+}
+

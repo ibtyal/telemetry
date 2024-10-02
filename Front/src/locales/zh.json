@@ -1,0 +1,15 @@
+{
+  "title": "电动汽车",
+  "real_time_data": "实时数据",
+  "voltage": "电压",
+  "current": "电流",
+  "temperature": "温度",
+  "rpm": "转速",
+  "speed": "速度",
+  "soc": "SOC",
+  "disconnect": "断开",
+  "sessions_registered": "已注册的会话",
+  "vehicle_status": "车辆状态",
+  "connecting": "连接中..."
+}
+

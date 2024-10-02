@@ -1,0 +1,15 @@
+{
+  "title": "Elektrofahrzeug",
+  "real_time_data": "Echtzeitdaten",
+  "voltage": "Spannung",
+  "current": "Strom",
+  "temperature": "Temperatur",
+  "rpm": "U/min",
+  "speed": "Geschwindigkeit",
+  "soc": "SOC",
+  "disconnect": "Trennen",
+  "sessions_registered": "Registrierte Sitzungen",
+  "vehicle_status": "Fahrzeugstatus",
+  "connecting": "Verbindung..."
+}
+
