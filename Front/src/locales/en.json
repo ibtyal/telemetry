@@ -8,8 +8,10 @@
   "speed": "Speed",
   "soc": "SOC",
   "disconnect": "Disconnect",
-  "sessions_registered": "Registered Sessions",
+  "sessions_registered": "Sessions",
   "vehicle_status": "Vehicle Status",
-  "connecting": "Connecting..."
+  "connecting": "Connecting...",
+  "offline": "Vehicle off"
+
 }
 

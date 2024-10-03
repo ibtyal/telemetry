@@ -8,8 +8,10 @@
   "speed": "Geschwindigkeit",
   "soc": "SOC",
   "disconnect": "Trennen",
-  "sessions_registered": "Registrierte Sitzungen",
+  "sessions_registered": "Sitzungen",
   "vehicle_status": "Fahrzeugstatus",
-  "connecting": "Verbindung..."
+  "connecting": "Verbindung...",
+  "offline": "Fahrzeugabschaltung"
+
 }
 

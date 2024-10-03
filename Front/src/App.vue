@@ -16,28 +16,25 @@
                 <img src="./assets/siima_logo_index.png" alt="Logo Siima 2023">
             </div>
             <div class="botones">
-<!-- Botones para on/of-->
-                <div v-if="vehicleActive">
-                    <router-link to="/" class="boton_datos">
+                
+                <div>
+                    <router-link v-if="vehicleActive" to="/" class="boton_datos">
                             <div><img src="./assets/RealTimeData.png" alt="Datos en tiempo real"></div>
                             <div class="text_index"><RealTimeData /></div>              
-                    </router-link>         
+                    </router-link>       
+                    <div v-else class="boton_datos" >
+                        <div><img src="./assets/icon_off.png" alt="OFFLINE :C"></div>
+                        <div class="text_index"><h2>{{ $t('offline') }}</h2></div>
+                    </div>        
                 </div>
-                <div v-else>
-                    <router-link to="/" class="boton_datos">
-                    <div><img src="./assets/icon_off.png" alt="OFFLINE :C"></div>
-                    <p class="text_index">Vehicle Offline</p>
-                      </router-link>        
-                </div>
-<!-- Termina Botones para on/of -->    
-                <div class="boton_historial">
-                    <div><img src="./assets/SessionList.png" alt="Historial"></div>
-                        <div class="text_index">
-                            <SessionList />
-                        </div>
-                </div>
-            </div>
+                <router-link to="/sessions" class="boton_historial">
+                        <div><img src="./assets/SessionList.png" alt="Sesiones"></div>
+                        <div class="text_index"><h2>{{ $t('sessions_registered') }}</h2></div>
+                    </router-link>                   
+                                
+            </div>        
         </div>
+        <router-view v-if="vehicleActive || $route.name === 'SessionList'"><SessionList /></router-view>
     </div>
     <div>
         <iframe class="spotify" src="https://open.spotify.com/embed/episode/1wlmCEpgKFApRTiVX7MdRj?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>

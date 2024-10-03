@@ -10,6 +10,8 @@
   "disconnect": "断开",
   "sessions_registered": "已注册的会话",
   "vehicle_status": "车辆状态",
-  "connecting": "连接中..."
+  "connecting": "连接中...",
+  "offline": "車輛關閉"
+
 }
 

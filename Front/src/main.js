@@ -7,6 +7,8 @@ import es from './locales/es.json'
 import de from './locales/de.json'
 import zh from './locales/zh.json'
 
+
+
 // Configuración de i18n
 const i18n = createI18n({
   locale: 'es', // Idioma por defecto

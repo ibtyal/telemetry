@@ -8,8 +8,9 @@
   "speed": "Velocidad",
   "soc": "SOC",
   "disconnect": "Desconectar",
-  "sessions_registered": "Sesiones Registradas",
+  "sessions_registered": "Sesiones",
   "vehicle_status": "Estado del Vehículo",
-  "connecting": "Conectando..."
+  "connecting": "Conectando...",
+  "offline": "Vehículo Apagado"
 }
 
