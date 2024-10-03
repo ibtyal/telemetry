@@ -44,7 +44,7 @@ def download_file(file_name: str):
 
 
 # Here starts WS data
-@app.websocket("/ws")
+@app.websocket("/ws-csv")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     
@@ -73,3 +73,23 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         print(f"Conexión cerrada, datos guardados en {csv_filename}")
         csv_handler.close_csv()
+
+# Here starts WS data
+@app.websocket("/ws-status")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    
+
+    data = {
+        "status": False,
+    }
+
+    data = await websocket.receive_json()
+
+    try:
+        await websocket.send_json(data)
+    except WebSocketDisconnect:
+        print(f"Conexión cerrada arduino")
+        await websocket.send_json( data = {
+        "status": False,
+    })

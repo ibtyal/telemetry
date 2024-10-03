@@ -28,7 +28,7 @@ export default {
   methods: {
     connectWebSocket() {
       // Conectar al WebSocket de FastAPI
-      this.socket = new WebSocket("ws://localhost:8000/ws");
+      this.socket = new WebSocket("ws://localhost:8000/ws-csv");
 
       // Manejar los mensajes que lleguen desde el servidor
       this.socket.onmessage = (event) => {
