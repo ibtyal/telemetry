@@ -109,7 +109,7 @@ export default {
         };
 
         this.ws.onmessage = (event) => {
-          console.log(JSON.parse(event.data));
+        //   console.log(JSON.parse(event.data));
           this.vehicleActive = JSON.parse(event.data).status;
         };
 

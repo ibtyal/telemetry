@@ -29,10 +29,8 @@ def alive():
 def list_sessions():
     try:
         files = os.listdir(SESSIONS_FOLDER)
-        print(files)
         return {"files": files}
     except Exception as e:
-        print(e)
         return {"error": str(e)}
 
 @app.get("/download/{file_name}")
