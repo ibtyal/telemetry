@@ -23,12 +23,7 @@ export default {
   mounted() {
     // Llama al backend para obtener la lista de archivos
     axios
-      .get("http://localhost:8000/sessions", {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .get("http://localhost:8000/sessions")
       .then((response) => {
         this.files = response.data.files;
       })

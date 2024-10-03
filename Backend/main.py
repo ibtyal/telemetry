@@ -16,13 +16,23 @@ app.add_middleware(
     allow_headers=["*"],  # Permitir todas las cabeceras
 )
 
-SESSIONS_FOLDER = "/telemetry/sessions"
+SESSIONS_FOLDER = "../sessions"
+
+@app.get("/")
+def alive():
+    try:
+        return {"ok": True}
+    except Exception as e:
+        return {"error": str(e)}
+    
 @app.get("/sessions")
 def list_sessions():
     try:
         files = os.listdir(SESSIONS_FOLDER)
+        print(files)
         return {"files": files}
     except Exception as e:
+        print(e)
         return {"error": str(e)}
 
 @app.get("/download/{file_name}")

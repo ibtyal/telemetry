@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import RealTimeData from './components/RealTimeData.vue';  // Importa RealTimeData
 import SessionList from './components/SessionList.vue';    // Importa SessionList
  export default {
@@ -57,7 +57,7 @@ import SessionList from './components/SessionList.vue';    // Importa SessionLis
   },
 data() {
     return {
-      vehicleActive: false,
+      vehicleActive: true,
       locale: 'es'
     }
   }, 
@@ -68,8 +68,8 @@ data() {
   methods: {
     async checkVehicleStatus() {
       try {
-        const response = await axios.get('http://localhost:8000/vehicle-status')
-        this.vehicleActive = response.data.active
+        // const response = await axios.get('http://localhost:8000/vehicle-status')
+        // this.vehicleActive = response.data.active
       } catch (error) {
         console.error('Error fetching vehicle status:', error)
       }
