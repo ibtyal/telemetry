@@ -1,10 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from "../components/HomePage.vue";
 import RealTimeData from '../components/RealTimeData.vue';
 import SessionList from '../components/SessionList.vue';
 
 const routes = [
+  {
+    path: "/",
+    name: "home",
+    component: HomePage,
+  },
     {
-      path: '/',
+      path: '/realtime-data',
       name: 'RealTimeData',
       component: RealTimeData
     },

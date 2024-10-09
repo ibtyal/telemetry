@@ -1,6 +1,8 @@
 <template>
-  <div class="historial">
+  <div>
     <h2>{{ $t("sessions_registered") }}</h2>
+  </div>
+  <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
         <a :href="`http://localhost:8000/download/${file}`" target="_blank">{{
@@ -37,16 +39,22 @@ export default {
 <style>
 .historial {
   background-color: rgba(5, 13, 27, 0.836);
-  width: 90%;
+  width: 70%;
   height: auto;
   margin-top: 20px;
   margin-left: 5%;
   padding: 20px;
   border-radius: 10px;
+  align-items: center;
+}
+.historial ul {
+  height: 450px;
+  width: auto;
+  overflow-y: auto;
 }
 
 .historial ul li {
-  text-decoration: none;
   list-style: none;
+  text-decoration: none;
 }
 </style>

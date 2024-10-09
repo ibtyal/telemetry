@@ -18,7 +18,7 @@ class CSVHandler:
         # Opens csv file and write headers
         self.csv_file = open(csv_filename, mode='w', newline='')
         self.csv_writer = csv.writer(self.csv_file)
-        self.csv_writer.writerow(['Time(sec)', 'Voltage', 'Current', 'RPM', 'Distance', 'Velocity'])  # CSV Headers
+        self.csv_writer.writerow(['Time', 'Voltage', 'Current', 'RPM', 'Distance', 'Velocity', 'Soc'])  # CSV Headers
         
         return csv_filename
 

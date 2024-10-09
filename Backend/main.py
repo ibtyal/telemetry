@@ -18,13 +18,6 @@ app.add_middleware(
 
 SESSIONS_FOLDER = "../sessions"
 
-@app.get("/")
-def alive():
-    try:
-        return {"ok": True}
-    except Exception as e:
-        return {"error": str(e)}
-    
 @app.get("/sessions")
 def list_sessions():
     try:
@@ -41,53 +34,66 @@ def download_file(file_name: str):
     return {"error": "File not found"}
 
 
-# Here starts WS data
+# Clase para manejar conexiones de WebSocket
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def send_data(self, message: dict):
+        for connection in self.active_connections:
+            await connection.send_json(message)
+
+# Instancia del ConnectionManager para gestionar las conexiones activas
+manager = ConnectionManager()
+
+# Ruta para recibir datos desde el ESP32 y guardarlos en CSV
 @app.websocket("/ws-csv")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    
-    # Creates a CSV Handler
+
+    # Crea un CSV Handler
     csv_handler = CSVHandler()
 
     # Crear un nuevo archivo CSV
     csv_filename = csv_handler.create_csv()
-    
+
     try:
         while True:
-            # Receves json data
+            # Recibir datos en formato JSON desde el ESP32
             json_data = await websocket.receive_json()
-            
-            # Gets individual data
+
+            # Obtener datos individuales
             time = json_data.get("Time(sec)")
-            voltaje = json_data.get("Voltage")
+            voltage = json_data.get("Voltage")
             current = json_data.get("Current")
             rpm = json_data.get("RPM")
             distance = json_data.get("Distance")
             velocity = json_data.get("Velocity")
-            
-            # Writes a new row
-            csv_handler.write_row(time, voltaje, current, rpm, distance, velocity)
-    
+
+            # Escribir una nueva fila en el CSV
+            csv_handler.write_row(time, voltage, current, rpm, distance, velocity)
+
+            # Enviar los datos a los clientes conectados a /ws-data (frontend)
+            await manager.send_data(json_data)
+
     except WebSocketDisconnect:
         print(f"Conexión cerrada, datos guardados en {csv_filename}")
         csv_handler.close_csv()
 
-# Here starts WS data
-@app.websocket("/ws-status")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    
-
-    data = {
-        "status": False,
-    }
-
-    data = await websocket.receive_json()
-
+# Ruta para el frontend, que recibe los datos y los muestra en tiempo real
+@app.websocket("/ws-data")
+async def websocket_data(websocket: WebSocket):
+    await manager.connect(websocket)
     try:
-        await websocket.send_json(data)
+        while True:
+            # Mantener la conexión abierta para enviar datos cuando lleguen
+            await websocket.receive_text()  # Mantén la conexión abierta
     except WebSocketDisconnect:
-        print(f"Conexión cerrada arduino")
-        await websocket.send_json( data = {
-        "status": False,
-    })
+        manager.disconnect(websocket)

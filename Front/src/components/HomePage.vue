@@ -1,73 +1,66 @@
 <template>
-  <header>
-    <div class="menu">
-      <ul>
-        <li>
-          <a href="/"><img src="./assets/icon_home_small.png" alt="Home" /></a>
-        </li>
-      </ul>
-    </div>
-    <div class="lang-select">
-      <select v-model="locale" @change="changeLocale">
-        <option value="en">English 🇬🇧</option>
-        <option value="es">Español 🇪🇸</option>
-        <option value="de">Deutsch 🇩🇪</option>
-        <option value="zh">中文 🇨🇳</option>
-      </select>
-    </div>
-  </header>
-  <body>
-    <div class="contenedor_index">
-      <RouterView />
-    </div>
+  <div class="botones_index">
     <div>
-      <iframe
-        class="spotify"
-        src="https://open.spotify.com/embed/episode/1wlmCEpgKFApRTiVX7MdRj?utm_source=generator"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-      ></iframe>
+      <img src="../assets/siima_logo_index.png" alt="Logo Siima 2023" />
     </div>
-  </body>
-  <footer>
-    <p>
-      Unidades Tecnológicas de Santander || Ingeniería Electromecánica <br />
-      Jonathan Fabian Polo Godoy ||
-      <a href="mailto:jonathan.polo@pm.me"
-        ><img
-          src="./assets/email.png"
-          alt="Emial Jonathan Polo"
-          style="height: 56.25%"
-      /></a>
-      <a href="https://www.instagram.com/semillerosiima/"
-        ><img
-          src="./assets/instagram.png"
-          alt="Instagram Siima"
-          style="height: 56.25%"
-      /></a>
-      <a href="https://www.facebook.com/semilleroSIIMA2019"
-        ><img
-          src="./assets/facebook.png"
-          alt="Facebook Siima"
-          style="height: 56.25%; color: white" /></a
-      >|| <span style="font-family: 'MedievalSharp', regular">L.V.X.</span>
-      <br />
-      2023
-    </p>
-  </footer>
+    <div class="botones">
+      <div>
+        <router-link
+          v-if="vehicleActive"
+          to="/realtime-data"
+          class="boton_datos"
+        >
+          <div>
+            <img src="../assets/RealTimeData.png" alt="Datos en tiempo real" />
+          </div>
+          <!-- <div class="text_index"><RealTimeData /></div> -->
+        </router-link>
+        <div v-else class="boton_datos">
+          <div><img src="../assets/icon_off.png" alt="OFFLINE :C" /></div>
+          <div class="text_index">
+            <h2>{{ $t("offline") }}</h2>
+          </div>
+        </div>
+      </div>
+      <router-link to="/sessions" class="boton_historial">
+        <div><img src="../assets/SessionList.png" alt="Sesiones" /></div>
+        <div class="text_index">
+          <h2>{{ $t("sessions_registered") }}</h2>
+        </div>
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      locale: "es", // Idioma predeterminado
+      vehicleActive: false, // Estado del vehículo
     };
   },
   methods: {
     changeLocale() {
       this.$i18n.locale = this.locale; // Cambia el idioma
     },
+    async checkVehicleStatus() {
+      try {
+        const ws = new WebSocket("ws://localhost:8000/ws-status");
+
+        ws.onopen = () => {
+          console.log("Conexión WebSocket abierta");
+        };
+
+        ws.onmessage = (event) => {
+          this.vehicleActive = JSON.parse(event.data).status; // Estado del vehículo
+        };
+      } catch (error) {
+        console.error("Error al obtener el estado del vehículo:", error);
+      }
+    },
+  },
+  created() {
+    this.checkVehicleStatus(); // Comprobación del estado del vehículo al cargar la página
   },
 };
 </script>
@@ -80,7 +73,7 @@ export default {
 }
 
 body {
-  background-image: url(./assets/background.jpg);
+  background-image: url(../assets/background.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   align-items: center;
@@ -126,7 +119,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 78vh;
+  height: 64vh;
 }
 
 .botones_index {
@@ -212,7 +205,7 @@ li {
 header {
   background-color: rgba(5, 13, 27, 0.836);
   color: #fff;
-  padding: 2px;
+  padding: 5px;
   width: 100%;
   height: 100px;
 }
@@ -226,14 +219,12 @@ header {
 }
 
 .menu {
-  margin-top: 10px;
+  float: right;
+  margin-top: 20px;
 }
 
 .menu ul {
   list-style: none;
-  display: flex;
-  float: left;
-  margin-right: 50%;
 }
 
 .menu ul li {
