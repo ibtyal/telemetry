@@ -108,8 +108,8 @@ h3 {
 
 h4 {
   font-family: "Kanit", sans-serif;
-  font-weight: 600;
-  font-size: 150px;
+  font-weight: 100;
+  font-size: 70px;
   color: white;
 }
 

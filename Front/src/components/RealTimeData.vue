@@ -1,28 +1,16 @@
 <template>
   <div>
-    <h2>{{ $t("real_time_data") }}</h2>
+    <h1>
+      <strong>{{ $t("real_time_data") }}</strong>
+    </h1>
     <div v-if="connected">
-      <p>
-        <strong>{{ $t("time") }}:</strong> {{ voltage }}
-      </p>
-      <p>
-        <strong>{{ $t("voltage") }}:</strong> {{ voltage }}
-      </p>
-      <p>
-        <strong>{{ $t("current") }}:</strong> {{ current }}
-      </p>
-      <p>
-        <strong>{{ $t("rpm") }}:</strong> {{ rpm }}
-      </p>
-      <p>
-        <strong>{{ $t("distance") }}:</strong> {{ distance }}
-      </p>
-      <p>
-        <strong>{{ $t("speed") }}:</strong> {{ speed }}
-      </p>
-      <p>
-        <strong>{{ $t("soc") }}:</strong> {{ soc }}
-      </p>
+      <h3>{{ $t("time") }}: {{ time }}</h3>
+      <h3>{{ $t("voltage") }}: {{ voltage }}</h3>
+      <h3>{{ $t("current") }}: {{ current }}</h3>
+      <h3>{{ $t("rpm") }}: {{ rpm }}</h3>
+      <h3>{{ $t("distance") }}: {{ distance }}</h3>
+      <h3>{{ $t("speed") }}: {{ speed }}</h3>
+      <h3>{{ $t("soc") }}: {{ soc }}</h3>
     </div>
   </div>
 </template>
@@ -31,7 +19,14 @@
 export default {
   data() {
     return {
-      data: null, // Aquí se almacenarán los datos en tiempo real
+      connected: false, // Propiedad para verificar si el WebSocket está conectado
+      time: null,
+      voltage: null,
+      current: null,
+      rpm: null,
+      distance: null,
+      speed: null,
+      soc: null,
       ws: null, // Instancia del WebSocket
     };
   },
@@ -40,18 +35,28 @@ export default {
   },
   methods: {
     connectWebSocket() {
-      this.ws = new WebSocket("ws://localhost:8000/ws-data");
+      this.ws = new WebSocket("ws://localhost:8000/ws-status");
 
       this.ws.onopen = () => {
         console.log("Conexión WebSocket abierta");
+        this.connected = true; // Cambia a verdadero cuando se establece la conexión
       };
 
       this.ws.onmessage = (event) => {
-        this.data = JSON.parse(event.data); // Recibe los datos en tiempo real
+        const parsedData = JSON.parse(event.data);
+        console.log("Datos recibidos: ", parsedData);
+        this.time = parsedData.Time;
+        this.voltage = parsedData.Voltage;
+        this.current = parsedData.Current;
+        this.rpm = parsedData.RPM;
+        this.distance = parsedData.Distance;
+        this.speed = parsedData.Velocity;
+        this.soc = parsedData.SoC;
       };
 
       this.ws.onclose = () => {
         console.log("Conexión WebSocket cerrada");
+        this.connected = false; // Cambia a falso cuando se pierde la conexión
       };
     },
   },

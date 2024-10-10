@@ -36,31 +36,33 @@
 export default {
   data() {
     return {
-      vehicleActive: false, // Estado del vehículo
+      ws: null,
+      vehicleActive: false, // Variable para habilitar el botón
     };
   },
-  methods: {
-    changeLocale() {
-      this.$i18n.locale = this.locale; // Cambia el idioma
-    },
-    async checkVehicleStatus() {
-      try {
-        const ws = new WebSocket("ws://localhost:8000/ws-status");
-
-        ws.onopen = () => {
-          console.log("Conexión WebSocket abierta");
-        };
-
-        ws.onmessage = (event) => {
-          this.vehicleActive = JSON.parse(event.data).status; // Estado del vehículo
-        };
-      } catch (error) {
-        console.error("Error al obtener el estado del vehículo:", error);
-      }
-    },
+  mounted() {
+    this.checkVehicleStatus();
   },
-  created() {
-    this.checkVehicleStatus(); // Comprobación del estado del vehículo al cargar la página
+  methods: {
+    checkVehicleStatus() {
+      // Conectar al WebSocket de /ws-status
+      this.ws = new WebSocket("ws://localhost:8000/ws-status");
+
+      this.ws.onopen = () => {
+        console.log("Conexión WebSocket abierta");
+      };
+
+      this.ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        // Habilitar el botón si se reciben datos
+        this.vehicleActive = !!data; // Habilitar el botón si hay datos
+      };
+
+      this.ws.onclose = () => {
+        console.log("Conexión WebSocket cerrada");
+        this.vehicleActive = false; // Deshabilitar el botón cuando se cierre la conexión
+      };
+    },
   },
 };
 </script>
