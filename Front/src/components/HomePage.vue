@@ -46,7 +46,7 @@ export default {
   methods: {
     checkVehicleStatus() {
       // Conectar al WebSocket de /ws-status
-      this.ws = new WebSocket("ws://localhost:8000/ws-status");
+      this.ws = new WebSocket({{wsstatus}});
 
       this.ws.onopen = () => {
         console.log("Conexión WebSocket abierta");

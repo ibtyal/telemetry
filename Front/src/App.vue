@@ -58,6 +58,7 @@
 </template>
 
 <script>
+const wsstatus = import.meta.env.VITE_WS;
 export default {
   data() {
     return {

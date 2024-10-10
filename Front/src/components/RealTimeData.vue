@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     connectWebSocket() {
-      this.ws = new WebSocket("ws://localhost:8000/ws-status");
+      this.ws = new WebSocket({{wsstatus}});
 
       this.ws.onopen = () => {
         console.log("Conexión WebSocket abierta");
