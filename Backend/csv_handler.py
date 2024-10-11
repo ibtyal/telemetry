@@ -22,9 +22,9 @@ class CSVHandler:
         
         return csv_filename
 
-    def write_row(self, time, voltaje, current, rpm, distance, velocity):
+    def write_row(self, time, voltaje, current, rpm, distance, velocity, soc):
         if self.csv_writer:
-            self.csv_writer.writerow([time, voltaje, current, rpm, distance, velocity])
+            self.csv_writer.writerow([time, voltaje, current, rpm, distance, velocity, soc])
 
     def close_csv(self):
         if self.csv_file:
