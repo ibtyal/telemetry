@@ -84,7 +84,10 @@ async def websocket_endpoint(websocket: WebSocket):
             # Escribir una nueva fila en el CSV
             csv_handler.write_row(time, voltage, current, rpm, distance, velocity, soc)
 
-            # Enviar los datos a los clientes conectados a /ws-data (frontend)
+            # Enviar los datos a los clientes conectados a /ws-status (HomePage.vue y RealTimeData.vue)
+            await status_manager.send_data(json_data)
+
+            # Enviar los datos también a los clientes conectados a /ws-data (RealTimeData.vue)
             await data_manager.send_data(json_data)
 
     except WebSocketDisconnect:
