@@ -58,27 +58,38 @@ data_manager = ConnectionManager()
 
 # Ruta para recibir datos desde el ESP32 y transmitirlos al frontend en /ws-status y /ws-data
 @app.websocket("/ws-data")
-async def websocket_data(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+
     # Crea un CSV Handler
     csv_handler = CSVHandler()
 
     # Crear un nuevo archivo CSV
     csv_filename = csv_handler.create_csv()
+
     try:
         while True:
-            # Recibir datos JSON desde el ESP32
+            # Recibir datos en formato JSON desde el ESP32
             json_data = await websocket.receive_json()
 
-            # Enviar los datos a los clientes conectados a /ws-status (HomePage.vue y RealTimeData.vue)
-            await status_manager.send_data(json_data)
+            # Obtener datos individuales
+            time = json_data.get("Time")
+            voltage = json_data.get("Voltage")
+            current = json_data.get("Current")
+            rpm = json_data.get("RPM")
+            distance = json_data.get("Distance")
+            velocity = json_data.get("Velocity")
+            soc = json_data.get("SoC")
 
-            # Enviar los datos también a los clientes conectados a /ws-data (RealTimeData.vue)
-            await data_manager.send_data(json_data)
+            # Escribir una nueva fila en el CSV
+            csv_handler.write_row(time, voltage, current, rpm, distance, velocity, soc)
+
+            # Enviar los datos a los clientes conectados a /ws-data (frontend)
+            await manager.send_data(json_data)
+
     except WebSocketDisconnect:
         print(f"Conexión cerrada, datos guardados en {csv_filename}")
         csv_handler.close_csv()
-        print("Conexión WebSocket /ws-data cerrada")
 
 # Ruta para enviar los datos retransmitidos al frontend (HomePage.vue y RealTimeData.vue)
 @app.websocket("/ws-status")
