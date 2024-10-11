@@ -25,7 +25,7 @@ export default {
   mounted() {
     // Llama al backend para obtener la lista de archivos
     axios
-      .get("http://localhost:8000/sessions")
+      .get("wss://siima.tech/ws-status")
       .then((response) => {
         this.files = response.data.files;
       })
