@@ -85,7 +85,7 @@ async def websocket_endpoint(websocket: WebSocket):
             csv_handler.write_row(time, voltage, current, rpm, distance, velocity, soc)
 
             # Enviar los datos a los clientes conectados a /ws-data (frontend)
-            await manager.send_data(json_data)
+            await data_manager.send_data(json_data)
 
     except WebSocketDisconnect:
         print(f"Conexión cerrada, datos guardados en {csv_filename}")
