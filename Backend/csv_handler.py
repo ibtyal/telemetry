@@ -1,6 +1,11 @@
 import csv
 import datetime
 import os
+import pytz
+
+
+#setting Colombia timezone
+colombia_tz = pytz.timezone('America/Bogota')
 
 class CSVHandler:
     def __init__(self, csv_dir="../sessions"):
@@ -12,7 +17,7 @@ class CSVHandler:
 
     def create_csv(self):
         # Creates a timestamp to name CSV files
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        timestamp = datetime.datetime.now(colombia_tz).strftime("%Y-%m-%d_%H-%M-%S")
         csv_filename = f"{self.csv_dir}/{timestamp}.csv"
         
         # Opens csv file and write headers
