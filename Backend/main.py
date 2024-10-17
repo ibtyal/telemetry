@@ -79,7 +79,7 @@ async def websocket_endpoint(websocket: WebSocket):
             rpm = json_data.get("RPM")
             distance = json_data.get("Distance")
             velocity = json_data.get("Velocity")
-            soc = json_data.get("SoC")
+            soc = json_data.get("Soc")
 
             # Escribir una nueva fila en el CSV
             csv_handler.write_row(time, voltage, current, rpm, distance, velocity, soc)
