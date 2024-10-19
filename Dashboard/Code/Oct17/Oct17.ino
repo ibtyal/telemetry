@@ -18,8 +18,8 @@ unsigned long rawCurrent;
 //float currentM;
 
 //WS configuration
-const char* websockets_server_host = "siima.tech"; //Enter server adress
-const uint16_t websockets_server_port = 8000; // Enter server port
+const char* websockets_server_host = "direccion-web"; //Enter server adress
+const uint16_t websockets_server_port = 0000; // Enter server port
 
 using namespace websockets;
 WebsocketsClient client;
@@ -83,7 +83,7 @@ void setup() {
 
   //Configurando conexión WiFi
   Serial.println("Connecting to WiFi");
-  WiFi.begin("Francesco", "Elbalazo");
+  WiFi.begin("SSID", "password");
   while (WiFi.status() != WL_CONNECTED){
     delay(100);
     Serial.print(".");
