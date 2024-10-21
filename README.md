@@ -4,7 +4,6 @@ Nuestro objetivo es construir un tablero que sirva como recptor y emisor de tele
 Este proyecto consiste en caracterizar el desempeño de un vehículo eléctrico prototipo en función de su uso para velocidad o autonomía. Para lo cual se precisa un infraestructura que agrupe arquitectura de software y hardware con el fin de obtener de manera remota datos e información relevante que permita parametrizar las condiciones óptimas de funcionamiento y proponer modificaciones y mejoras en pro de la optimización.
 
 Para la implementación de este proyecto se han seleccionado como varialbes operacionales críticas:
-- Estado de carga [%] (SOC).
 - Velocidad.
 - Aceleración.
 - Consumo en batería.
