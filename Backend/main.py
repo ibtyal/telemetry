@@ -22,8 +22,7 @@ app.add_middleware(
 SESSIONS_DIR = "/home/telemetry/sessions" # Ruta donde están los archivos CSV
 
 @app.get("/sessions")
-async def list_sessions():
-    """Lista todos los archivos CSV disponibles en el directorio de sesiones"""
+async def list_sessions():    
     try:
         files = [file for file in os.listdir(SESSIONS_DIR) if file.endswith('.csv')]
         return {"files": files}
@@ -32,7 +31,6 @@ async def list_sessions():
 
 @app.get("/download/{file_name}")
 async def download_file(file_name: str):
-    """Descarga un archivo CSV especificado"""
     file_path = os.path.join(SESSIONS_DIR, file_name)
     if not os.path.exists(file_path) or not file_name.endswith('.csv'):
         raise HTTPException(status_code=404, detail="Archivo no encontrado")
