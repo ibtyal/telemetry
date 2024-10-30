@@ -5,7 +5,7 @@
   <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
-        <a :href="`https://siima.tech:8000/download/${file}`" target="_blank">{{
+        <a :href="`https://siima.tech/download/${file}`" target="_blank">{{
           file
         }}</a>
       </li>
@@ -25,7 +25,7 @@ export default {
   mounted() {
     // Llama al backend para obtener la lista de archivos
     axios
-      .get("https://siima.tech:8000/sessions", {
+      .get("https://siima.tech/sessions", {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
