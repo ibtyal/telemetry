@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from typing import List
 from csv_handler import CSVHandler
 import os
@@ -25,7 +25,7 @@ SESSIONS_DIR = "/home/telemetry/sessions" # Ruta donde están los archivos CSV
 async def list_sessions():    
     try:
         files = [file for file in os.listdir(SESSIONS_DIR) if file.endswith('.csv')]
-        return {"files": files}
+        return JSONResponse(content={"files": files})
     except Exception as e:
         raise HTTPException(status_code=500, detail="Error al listar archivos")
 
