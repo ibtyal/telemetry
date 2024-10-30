@@ -5,33 +5,25 @@
   <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
-        <a :href="`/api/download/${file}`" target="_blank">{{ file }}</a>
+        <a :href="`/api/download/${file}`" download>{{ file }}</a>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-
 export default {
-  name: "SessionList",
-  setup() {
-    const sessions = ref([]);
-
-    onMounted(async () => {
-      try {
-        // Solicitud GET para obtener la lista de archivos CSV
-        const response = await axios.get("/sessions");
-        // Accede al array en la clave `files` de la respuesta
-        sessions.value = response.data.files;
-      } catch (error) {
-        console.error("Error al obtener las sesiones:", error);
-      }
-    });
-
-    return { sessions };
+  data() {
+    return {
+      files: [],
+    };
+  },
+  mounted() {
+    fetch("/api/sessions")
+      .then((response) => response.json())
+      .then((data) => {
+        this.files = data;
+      });
   },
 };
 </script>

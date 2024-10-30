@@ -18,22 +18,23 @@ app.add_middleware(
 
 
 # Descarga de sesiones
-SESSIONS_FOLDER = "../sessions"
+SESSIONS_DIR = "../sessions"
 
 @app.get("/sessions")
 def list_sessions():
     try:
-        files = os.listdir(SESSIONS_FOLDER)
-        return {"files": files}
+        files = os.listdir(SESSIONS_DIR)
+        return files
     except Exception as e:
-        return {"error": str(e)}
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/download/{file_name}")
-def download_file(file_name: str):
-    file_path = os.path.join(SESSIONS_FOLDER, file_name)
-    if os.path.exists(file_path):
-        return FileResponse(file_path, media_type='application/octet-stream', filename=file_name)
-    return {"error": "File not found"}
+@app.get("/download/{filename}")
+def download_file(filename: str):
+    file_path = os.path.join(SESSIONS_DIR, filename)
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+    return FileResponse(file_path, media_type='application/octet-stream', filename=filename)
+
 
 
 # Clase para manejar conexiones de WebSocket
