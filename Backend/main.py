@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Response
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from typing import List
@@ -10,7 +10,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://siima.tech"],  # Permitir estos orígenes
+    allow_origins=["https://siima.tech", "http://siima.tech"],  # Permitir estos orígenes
     allow_credentials=True,  # Permitir enviar cookies y credenciales
     allow_methods=["*"],  # Permitir todos los métodos HTTP (GET, POST, etc.)
     allow_headers=["*"],  # Permitir todas las cabeceras
@@ -18,22 +18,25 @@ app.add_middleware(
 
 
 # Descarga de sesiones
-SESSIONS_DIR = "../sessions"
+
+SESSIONS_DIR = "/home/telemetry/sessions" # Ruta donde están los archivos CSV
 
 @app.get("/sessions")
-def list_sessions():
+async def list_sessions():
+    """Lista todos los archivos CSV disponibles en el directorio de sesiones"""
     try:
-        files = os.listdir(SESSIONS_DIR)
-        return files
+        files = [file for file in os.listdir(SESSIONS_DIR) if file.endswith('.csv')]
+        return {"files": files}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Error al listar archivos")
 
-@app.get("/download/{filename}")
-def download_file(filename: str):
-    file_path = os.path.join(SESSIONS_DIR, filename)
-    if not os.path.exists(file_path):
-        raise HTTPException(status_code=404, detail="File not found")
-    return FileResponse(file_path, media_type='application/octet-stream', filename=filename)
+@app.get("/download/{file_name}")
+async def download_file(file_name: str):
+    """Descarga un archivo CSV especificado"""
+    file_path = os.path.join(SESSIONS_DIR, file_name)
+    if not os.path.exists(file_path) or not file_name.endswith('.csv'):
+        raise HTTPException(status_code=404, detail="Archivo no encontrado")
+    return FileResponse(path=file_path, filename=file_name, media_type='text/csv')
 
 
 

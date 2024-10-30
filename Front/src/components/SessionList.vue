@@ -5,7 +5,8 @@
   <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
-        <a :href="`/api/download/${file}`" download>{{ file }}</a>
+        <span>{{ file }}</span>
+        <button @click="downloadFile(file)">Download</button>
       </li>
     </ul>
   </div>
@@ -18,12 +19,23 @@ export default {
       files: [],
     };
   },
-  mounted() {
-    fetch("/api/sessions")
-      .then((response) => response.json())
-      .then((data) => {
-        this.files = data;
-      });
+  created() {
+    this.fetchFiles();
+  },
+  methods: {
+    async fetchFiles() {
+      try {
+        const response = await fetch("https://siima.tech/sessions"); // Asegúrate de usar tu dominio aquí
+        const data = await response.json();
+        this.files = data.files;
+      } catch (error) {
+        console.error("Error al obtener la lista de archivos:", error);
+      }
+    },
+    downloadFile(fileName) {
+      const url = `https://siima.tech/download/${fileName}`;
+      window.open(url, "_blank"); // Abre la descarga en una nueva ventana o pestaña
+    },
   },
 };
 </script>
