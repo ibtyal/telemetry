@@ -5,52 +5,38 @@
   <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
-        <span>{{ file }}</span>
-        <button @click="downloadFile(file)">Download</button>
+        <a :href="`https://siima.tech:8000/download/${file}`" target="_blank">{{
+          file
+        }}</a>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       files: [],
     };
   },
-  created() {
-    this.fetchFiles();
-  },
-  methods: {
-    async fetchFiles() {
-      try {
-        console.log("Iniciando solicitud a:", "https://siima.tech/sessions"); // Log de la URL
-
-        const response = await fetch("https://siima.tech/sessions");
-
-        console.log("Estado de la respuesta:", response.status); // Log del código de estado HTTP
-        console.log("Tipo de contenido:", response.headers.get("content-type")); // Verifica el tipo de contenido
-
-        // Asegúrate de que el tipo de contenido sea JSON antes de intentar parsear
-        if (
-          response.headers.get("content-type")?.includes("application/json")
-        ) {
-          const data = await response.json();
-          console.log("Datos recibidos:", data); // Log de los datos obtenidos
-          this.files = data.files;
-        } else {
-          throw new Error("El contenido no es JSON");
-        }
-      } catch (error) {
-        console.error("Error al obtener la lista de archivos:", error);
-      }
-    },
-    downloadFile(fileName) {
-      const url = `https://siima.tech/download/${fileName}`;
-      console.log("Descargando archivo desde:", url); // Log de la URL de descarga
-      window.open(url, "_blank");
-    },
+  mounted() {
+    // Llama al backend para obtener la lista de archivos
+    axios
+      .get("https://siima.tech:8000/sessions", {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((response) => {
+        this.files = response.data.files;
+      })
+      .catch((error) => {
+        console.error("Error fetching session files:", error);
+      });
   },
 };
 </script>

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 from typing import List
 from csv_handler import CSVHandler
 import os
@@ -19,22 +19,21 @@ app.add_middleware(
 
 # Descarga de sesiones
 
-SESSIONS_DIR = "../sessions/" # Ruta donde están los archivos CSV
-
+SESSIONS_FOLDER = "../sessions"
 @app.get("/sessions")
-async def list_sessions():    
+def list_sessions():
     try:
-        files = os.listdir(SESSIONS_DIR)
-        return JSONResponse(content={"files": files})
+        files = os.listdir(SESSIONS_FOLDER)
+        return {"files": files}
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Error al listar archivos")
+        return {"error": str(e)}
 
 @app.get("/download/{file_name}")
-async def download_file(file_name: str):
-    file_path = os.path.join(SESSIONS_DIR, file_name)
-    if not os.path.exists(file_path) or not file_name.endswith('.csv'):
-        raise HTTPException(status_code=404, detail="Archivo no encontrado")
-    return FileResponse(path=file_path, filename=file_name, media_type='text/csv')
+def download_file(file_name: str):
+    file_path = os.path.join(SESSIONS_FOLDER, file_name)
+    if os.path.exists(file_path):
+        return FileResponse(file_path, media_type='application/octet-stream', filename=file_name)
+    return {"error": "File not found"}
 
 
 
