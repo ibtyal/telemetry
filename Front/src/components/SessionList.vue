@@ -12,24 +12,26 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      files: [],
-    };
-  },
-  mounted() {
-    // Llama al backend para obtener la lista de archivos
-    axios
-      .get("wss://siima.tech/ws-status")
-      .then((response) => {
-        this.files = response.data.files;
-      })
-      .catch((error) => {
-        console.error("Error fetching session files:", error);
-      });
+  name: "SessionList",
+  setup() {
+    const sessions = ref([]);
+
+    onMounted(async () => {
+      try {
+        // Solicitud GET para obtener la lista de archivos CSV
+        const response = await axios.get("/sessions");
+        // Accede al array en la clave `files` de la respuesta
+        sessions.value = response.data.files;
+      } catch (error) {
+        console.error("Error al obtener las sesiones:", error);
+      }
+    });
+
+    return { sessions };
   },
 };
 </script>
