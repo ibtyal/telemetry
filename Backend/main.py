@@ -16,6 +16,8 @@ app.add_middleware(
     allow_headers=["*"],  # Permitir todas las cabeceras
 )
 
+
+# Descarga de sesiones
 SESSIONS_FOLDER = "../sessions"
 
 @app.get("/sessions")
