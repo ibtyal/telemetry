@@ -3,9 +3,9 @@
     <h2>{{ $t("sessions_registered") }}</h2>
   </div>
   <div class="historial">
-    <ul v-if="sessions.length">
-      <li v-for="(session, index) in sessions" :key="index">
-        <a :href="`/api/download/${session}`" download>{{ session }}</a>
+    <ul>
+      <li v-for="file in files" :key="file">
+        <a :href="`/api/download/${file}`" target="_blank">{{ file }}</a>
       </li>
     </ul>
   </div>
