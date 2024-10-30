@@ -5,9 +5,7 @@
   <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
-        <a :href="`https://siima.tech:8000/download/${file}`" target="_blank">{{
-          file
-        }}</a>
+        <a :href="`/sessions/${file}`" target="_blank">{{ file }}</a>
       </li>
     </ul>
   </div>
