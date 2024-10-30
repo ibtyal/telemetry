@@ -25,16 +25,31 @@ export default {
   methods: {
     async fetchFiles() {
       try {
-        const response = await fetch("https://siima.tech/sessions"); // Asegúrate de usar tu dominio aquí
-        const data = await response.json();
-        this.files = data.files;
+        console.log("Iniciando solicitud a:", "https://siima.tech/sessions"); // Log de la URL
+
+        const response = await fetch("https://siima.tech/sessions");
+
+        console.log("Estado de la respuesta:", response.status); // Log del código de estado HTTP
+        console.log("Tipo de contenido:", response.headers.get("content-type")); // Verifica el tipo de contenido
+
+        // Asegúrate de que el tipo de contenido sea JSON antes de intentar parsear
+        if (
+          response.headers.get("content-type")?.includes("application/json")
+        ) {
+          const data = await response.json();
+          console.log("Datos recibidos:", data); // Log de los datos obtenidos
+          this.files = data.files;
+        } else {
+          throw new Error("El contenido no es JSON");
+        }
       } catch (error) {
         console.error("Error al obtener la lista de archivos:", error);
       }
     },
     downloadFile(fileName) {
       const url = `https://siima.tech/download/${fileName}`;
-      window.open(url, "_blank"); // Abre la descarga en una nueva ventana o pestaña
+      console.log("Descargando archivo desde:", url); // Log de la URL de descarga
+      window.open(url, "_blank");
     },
   },
 };
