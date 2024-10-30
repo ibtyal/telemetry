@@ -10,7 +10,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://siima.tech", "http://siima.tech"],  # Permitir estos orígenes
+    allow_origins=["*"],  # Permitir estos orígenes
     allow_credentials=True,  # Permitir enviar cookies y credenciales
     allow_methods=["*"],  # Permitir todos los métodos HTTP (GET, POST, etc.)
     allow_headers=["*"],  # Permitir todas las cabeceras
