@@ -19,12 +19,12 @@ app.add_middleware(
 
 # Descarga de sesiones
 
-SESSIONS_DIR = "/home/telemetry/sessions" # Ruta donde están los archivos CSV
+SESSIONS_DIR = "../sessions/" # Ruta donde están los archivos CSV
 
 @app.get("/sessions")
 async def list_sessions():    
     try:
-        files = [file for file in os.listdir(SESSIONS_DIR) if file.endswith('.csv')]
+        files = os.listdir(SESSIONS_DIR)
         return JSONResponse(content={"files": files})
     except Exception as e:
         raise HTTPException(status_code=500, detail="Error al listar archivos")
