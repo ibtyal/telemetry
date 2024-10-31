@@ -5,9 +5,9 @@
   <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
-        <a :href="`https://siima.tech/download/${file}`" target="_blank">{{
-          file
-        }}</a>
+        <a :href="`https://siima.tech/download/${file}`" target="_blank">
+          {{ formatDate(file.start_time) }}
+        </a>
       </li>
     </ul>
   </div>
@@ -22,21 +22,36 @@ export default {
       files: [],
     };
   },
-  mounted() {
-    // Llama al backend para obtener la lista de archivos
-    axios
-      .get("https://siima.tech/sessions", {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
-      .then((response) => {
+  created() {
+    this.fetchSessions();
+  },
+  methods: {
+    async fetchSessions() {
+      try {
+        const response = await axios.get("https://siima.tech/sessions", {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
         this.files = response.data.files;
-      })
-      .catch((error) => {
-        console.error("Error fetching session files:", error);
-      });
+      } catch (error) {
+        console.error("Error fetching sessions:", error);
+      }
+    },
+    formatDate(dateString) {
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      return new Date(dateString).toLocaleDateString(
+        this.$i18n.locale,
+        options
+      );
+    },
   },
 };
 </script>
