@@ -1,12 +1,11 @@
 <template>
   <div>
     <h2>{{ $t("sessions_registered") }}</h2>
-  </div>
-  <div class="historial">
     <ul>
       <li v-for="file in files" :key="file">
-        <a :href="`https://siima.tech/download/${file}`" target="_blank">
-          {{ formatDate(file) }}
+        <!-- Enlace de descarga directamente al archivo -->
+        <a :href="`/download/${file}`" target="_blank">
+          {{ file }}
         </a>
       </li>
     </ul>
@@ -23,34 +22,16 @@ export default {
     };
   },
   created() {
-    this.fetchSessions();
+    this.fetchFiles();
   },
   methods: {
-    async fetchSessions() {
+    async fetchFiles() {
       try {
-        const response = await axios.get("https://siima.tech/sessions", {
-          headers: {
-            "Content-Type": "application/json",
-            //          "Access-Control-Allow-Origin": "*"
-          },
-        });
+        const response = await axios.get("/sessions");
         this.files = response.data.files;
       } catch (error) {
-        console.error("Error fetching sessions:", error);
+        console.error("Error fetching files:", error);
       }
-    },
-    formatDate(filename) {
-      const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      return new Date(dateString).toLocaleDateString(
-        this.$i18n.locale,
-        options
-      );
     },
   },
 };
