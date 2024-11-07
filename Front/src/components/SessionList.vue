@@ -30,8 +30,8 @@ export default {
       try {
         const response = await axios.get("https://siima.tech/sessions", {
           headers: {
-            "Content-Type": "application/json"
-//          "Access-Control-Allow-Origin": "*"          
+            "Content-Type": "application/json",
+            //          "Access-Control-Allow-Origin": "*"
           },
         });
         this.files = response.data.files;
@@ -39,7 +39,7 @@ export default {
         console.error("Error fetching sessions:", error);
       }
     },
-    formatDate(dateString) {
+    formatDate(filename) {
       const options = {
         year: "numeric",
         month: "long",
