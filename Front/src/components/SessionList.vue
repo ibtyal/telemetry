@@ -6,7 +6,7 @@
     <ul>
       <li v-for="file in files" :key="file">
         <a :href="`https://siima.tech/download/${file}`" target="_blank">
-          {{ formatDate(file.start_time) }}
+          {{ formatDate(file) }}
         </a>
       </li>
     </ul>
@@ -30,8 +30,8 @@ export default {
       try {
         const response = await axios.get("https://siima.tech/sessions", {
           headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json"
+//          "Access-Control-Allow-Origin": "*"          
           },
         });
         this.files = response.data.files;
