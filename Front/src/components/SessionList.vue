@@ -27,7 +27,7 @@ export default {
   methods: {
     async fetchFiles() {
       try {
-        const response = await axios.get("/sessions");
+        const response = await axios.get("http://localhost:8000/sessions");
         this.files = response.data.files;
       } catch (error) {
         console.error("Error fetching files:", error);
