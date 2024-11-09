@@ -19,7 +19,7 @@ app.add_middleware(
 
 # Descarga de sesiones
 
-SESSIONS_FOLDER = "../sessions"
+SESSIONS_FOLDER = "/home/telemetry/sessions"
 @app.get("/sessions")
 def list_sessions():
     try:
