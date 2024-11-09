@@ -27,7 +27,7 @@ export default {
   methods: {
     async fetchFiles() {
       try {
-        const response = await axios.get("https://siima.tech:8000/sessions");
+        const response = await axios.get("/sessions");
         this.files = response.data.files;
       } catch (error) {
         console.error("Error fetching files:", error);
