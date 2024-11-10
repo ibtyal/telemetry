@@ -4,9 +4,7 @@
     <ul>
       <li v-for="file in files" :key="file">
         <!-- Enlace de descarga directamente al archivo -->
-        <a :href="`/download/${file}`" target="_blank">
-          {{ file }}
-        </a>
+        <a :href="`/download/${file}`" :download="file">{{ file }}</a>
       </li>
     </ul>
   </div>

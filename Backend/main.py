@@ -32,10 +32,8 @@ def list_sessions():
 def download_file(file_name: str):
     file_path = os.path.join(SESSIONS_FOLDER, file_name)
     if os.path.exists(file_path):
-        return FileResponse(file_path, media_type='application/octet-stream', filename=file_name)
-    return {"error": "File not found"}
-
-
+        return FileResponse(file_path, media_type='application/octet-stream', filename=file_name, headers={"Content-Disposition": f"attachment; filename={file_name}"})
+    raise HTTPException(status_code=404, detail="File not found")
 
 # Clase para manejar conexiones de WebSocket
 class ConnectionManager:
