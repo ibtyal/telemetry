@@ -97,6 +97,7 @@ h2 {
   font-family: "Kanit", sans-serif;
   font-weight: 600;
   color: white;
+  text-align: center;
 }
 
 h3 {

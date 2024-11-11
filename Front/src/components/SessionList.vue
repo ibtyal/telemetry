@@ -39,17 +39,17 @@ export default {
 .historial {
   background-color: rgba(5, 13, 27, 0.836);
   width: 60%;
-  height: auto;
+  height: 80%;
   margin-top: 20px;
   margin-left: 5%;
   padding: 20px;
   border-radius: 10px;
   align-items: center;
+  overflow: auto;
 }
 .historial ul {
   height: 40%;
   width: auto;
-  overflow-y: auto;
 }
 
 .historial ul li {
