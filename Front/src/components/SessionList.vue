@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="historial">
     <h2>{{ $t("sessions_registered") }}</h2>
     <ul>
       <li v-for="file in files" :key="file">
